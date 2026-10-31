@@ -118,7 +118,7 @@ const server = http.createServer(async (req, res) => {
     const getMatch = url.pathname.match(/^\/api\/meetings\/([A-Z0-9]+)$/i);
     if (req.method === 'GET' && getMatch) { const user = requireUser(req, res); if (!user) return; const meeting = db.meetings.find(m => m.code === getMatch[1].toUpperCase()); return meeting ? json(res, 200, { meeting: cleanMeeting(meeting) }) : json(res, 404, { error: 'Meeting not found.' }); }
     if (url.pathname.startsWith('/api/')) return json(res, 404, { error: 'Not found.' });
-    let path = decodeURIComponent(url.pathname); if (path === '/') path = '/index.html'; if (!['/index.html', '/app.js'].includes(path)) return json(res, 404, { error: 'Not found.' }); const file = join(root, path.replace(/^\/+/, '')); if (!existsSync(file)) return json(res, 404, { error: 'Not found.' }); res.writeHead(200, { 'Content-Type': mime[extname(file)] || 'application/octet-stream' }); createReadStream(file).pipe(res);
+    let path = decodeURIComponent(url.pathname); if (path === '/') path = '/index.html'; if (!['/index.html', '/client.js'].includes(path)) return json(res, 404, { error: 'Not found.' }); const file = join(root, path.replace(/^\/+/, '')); if (!existsSync(file)) return json(res, 404, { error: 'Not found.' }); res.writeHead(200, { 'Content-Type': mime[extname(file)] || 'application/octet-stream' }); createReadStream(file).pipe(res);
   } catch (e) { console.error(e); if (!res.headersSent) json(res, 500, { error: 'Something went wrong. Please try again.' }); }
 });
 
