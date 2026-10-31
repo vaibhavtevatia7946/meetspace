@@ -6,7 +6,7 @@
 
 A lightweight, zero-dependency video meeting platform featuring direct peer-to-peer WebRTC calls, waiting room moderation, multi-provider OAuth, and local recordings.
 
-[![Live Demo](https://img.shields.io/badge/Demo-meetspace--vaibhav.vercel.app-black?style=for-the-badge&logo=vercel&logoColor=white)](https://meetspace-vaibhav.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Site-meetspace--vaibhav.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://meetspace-vaibhav.vercel.app/)
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![WebRTC](https://img.shields.io/badge/WebRTC-Peer--to--Peer-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero-blue?style=for-the-badge)](package.json)
@@ -14,7 +14,7 @@ A lightweight, zero-dependency video meeting platform featuring direct peer-to-p
 
 <br />
 
-[**Launch Meetspace**](https://meetspace-vaibhav.vercel.app/) • [**Source Code**](https://github.com/vaibhavtevatia7946/meetspace) • [**Report Bug**](https://github.com/vaibhavtevatia7946/meetspace/issues)
+🚀 **[Open Meetspace Live](https://meetspace-vaibhav.vercel.app/)** • 💻 **[GitHub Repository](https://github.com/vaibhavtevatia7946/meetspace)** • 🐛 **[Report an Issue](https://github.com/vaibhavtevatia7946/meetspace/issues)**
 
 </div>
 
@@ -55,10 +55,11 @@ sequenceDiagram
     Server->>Bob: Forward SDP Offer
     Bob->>Server: SDP Answer
     Server->>Alice: Forward SDP Answer
-    Alice<<-->>Bob: ICE Candidates Exchanged (via STUN)
+    Note over Alice,Bob: Exchange ICE Candidates (via STUN)
 
     Note over Alice,Bob: 3. Encrypted P2P Media Stream
-    Alice<<==>>Bob: Direct Audio / Video / Screen Share
+    Alice->>Bob: Direct Audio / Video / Screen Share
+    Bob->>Alice: Direct Audio / Video / Screen Share
 ```
 
 > **Network Note:** Built-in STUN negotiation handles peer-to-peer traversal across standard networks. Restrictive corporate firewalls or symmetric NATs may require a custom TURN relay.
@@ -82,7 +83,7 @@ cd meetspace
 node app-server.mjs
 ```
 
-Open [**http://localhost:3000**](http://localhost:3000) to create your account and start your first call.
+Open [**https://meetspace-vaibhav.vercel.app**](https://meetspace-vaibhav.vercel.app) to test it live, or navigate to [**http://localhost:3000**](http://localhost:3000) when running locally.
 
 > [!NOTE]  
 > Camera and microphone access are modern browser security features that require either `localhost` or an `https://` origin.
@@ -109,12 +110,12 @@ Register these exact redirect URLs in your provider dashboards:
 
 | Provider | Local Callback URL | Production Callback URL |
 | :--- | :--- | :--- |
-| **Google** | `http://localhost:3000/auth/google/callback` | `https://<YOUR-DOMAIN>/auth/google/callback` |
-| **Microsoft** | `http://localhost:3000/auth/microsoft/callback` | `https://<YOUR-DOMAIN>/auth/microsoft/callback` |
-| **Apple** | `http://localhost:3000/auth/apple/callback` | `https://<YOUR-DOMAIN>/auth/apple/callback` |
+| **Google** | `http://localhost:3000/auth/google/callback` | `https://meetspace-vaibhav.vercel.app/auth/google/callback` |
+| **Microsoft** | `http://localhost:3000/auth/microsoft/callback` | `https://meetspace-vaibhav.vercel.app/auth/microsoft/callback` |
+| **Apple** | `http://localhost:3000/auth/apple/callback` | `https://meetspace-vaibhav.vercel.app/auth/apple/callback` |
 
 > [!TIP]
-> - For production, set `BASE_URL` to your live domain (e.g. `https://meetspace-vaibhav.vercel.app`).
+> - For production, set `BASE_URL` to your live domain: `https://meetspace-vaibhav.vercel.app`.
 > - Microsoft can use `MICROSOFT_TENANT_ID=common` or a custom tenant.
 > - Apple requires a *Sign in with Apple* Service ID and private key JWT secret (`APPLE_CLIENT_SECRET`).
 
@@ -125,7 +126,7 @@ Register these exact redirect URLs in your provider dashboards:
 Meetspace is configured for zero-configuration deployment to Vercel via `server.ts` and `vercel.json`.
 
 1. Import the repository at [vercel.com/new](https://vercel.com/new).
-2. Under **Project Settings → Environment Variables**, add your `BASE_URL` and any OAuth keys.
+2. Under **Project Settings → Environment Variables**, add your `BASE_URL` (`https://meetspace-vaibhav.vercel.app`) and any OAuth keys.
 3. Click **Deploy**.
 
 > [!WARNING]  
