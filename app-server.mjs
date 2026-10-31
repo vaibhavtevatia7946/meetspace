@@ -57,7 +57,6 @@ function saveProviderUser(claims, provider) {
 }
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, 'http://localhost');
-  console.log('http request', req.method, req.url, url.pathname);
   try {
     if (req.method === 'POST' && url.pathname === '/api/auth/signup') {
       const { name, email, password } = await readBody(req);

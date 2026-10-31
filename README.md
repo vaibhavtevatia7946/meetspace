@@ -7,10 +7,10 @@ Meetspace is a full-stack video-meeting MVP with account sign-in, scheduled meet
 Requires Node.js 20 or newer. No package installation is needed.
 
 ```sh
-node server.mjs
+node app-server.mjs
 ```
 
-For email/password only, no setup file is required. To enable OAuth providers, copy `.env.example` to `.env` and start with `node --env-file=.env server.mjs`. Open http://localhost:3000, create an account, then start or schedule a meeting. Invite others with its code. Camera and microphone work on localhost and HTTPS.
+For email/password only, no setup file is required. To enable OAuth providers, copy `.env.example` to `.env` and start with `node --env-file=.env app-server.mjs`. Open http://localhost:3000, create an account, then start or schedule a meeting. Invite others with its code. Camera and microphone work on localhost and HTTPS.
 
 ## Deploy to Vercel
 
