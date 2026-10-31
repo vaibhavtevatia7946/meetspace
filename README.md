@@ -1,78 +1,137 @@
 <div align="center">
 
-# Meetspace
+# 🪐 Meetspace
 
-### Meetings made human.
+### *Meetings made human.*
 
-A lightweight video meeting app with peer-to-peer calls, meeting rooms, and a polished workspace.
+A lightweight, zero-dependency video meeting platform featuring direct peer-to-peer WebRTC calls, waiting room moderation, multi-provider OAuth, and local recordings.
 
-[Open Meetspace](https://meetspace-vaibhav.vercel.app/) · [View the source](https://github.com/vaibhavtevatia7946/meetspace)
+[![Live Demo](https://img.shields.io/badge/Demo-meetspace--vaibhav.vercel.app-black?style=for-the-badge&logo=vercel&logoColor=white)](https://meetspace-vaibhav.vercel.app/)
+[![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![WebRTC](https://img.shields.io/badge/WebRTC-Peer--to--Peer-333333?style=for-the-badge&logo=webrtc&logoColor=white)](https://webrtc.org/)
+[![Dependencies](https://img.shields.io/badge/Dependencies-Zero-blue?style=for-the-badge)](package.json)
+[![License](https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge)](LICENSE)
+
+<br />
+
+[**Launch Meetspace**](https://meetspace-vaibhav.vercel.app/) • [**Source Code**](https://github.com/vaibhavtevatia7946/meetspace) • [**Report Bug**](https://github.com/vaibhavtevatia7946/meetspace/issues)
 
 </div>
 
 ---
 
-## What you can do
+## 🌟 What You Can Do
 
-- Start a meeting or join one with an invite code.
-- Schedule meetings and export calendar invites (`.ics`).
-- Meet over peer-to-peer audio and video, share your screen, and chat during a call.
-- Use a waiting room and host controls to admit, mute, or remove participants.
-- Record calls in your browser and play or download them later.
-- Browse meetings, contacts, and recordings in a responsive dashboard with light and dark themes.
-- Sign in with email and password, or configure Google, Microsoft, and Apple sign-in.
-
-## Run locally
-
-**Requirements:** Node.js 20 or newer. No package installation is needed.
-
-```bash
-git clone https://github.com/vaibhavtevatia7946/meetspace.git
-cd meetspace
-node app-server.mjs
-```
-
-Open [http://localhost:3000](http://localhost:3000), create an account, and start a meeting. Camera and microphone access work on `localhost` and HTTPS.
-
-## Optional sign-in providers
-
-Email and password sign-in works without extra configuration. To enable OAuth, copy `.env.example` to `.env`, add credentials from the provider console, and start the server with:
-
-```bash
-node --env-file=.env app-server.mjs
-```
-
-Register these callback URLs with the matching provider:
-
-| Provider | Local callback URL |
-| --- | --- |
-| Google | `http://localhost:3000/auth/google/callback` |
-| Microsoft | `http://localhost:3000/auth/microsoft/callback` |
-| Apple | `http://localhost:3000/auth/apple/callback` |
-
-For a deployed app, use its HTTPS origin and set `BASE_URL` to that same origin. Never commit `.env` or publish client secrets.
-
-## Deploying to Vercel
-
-The repository includes a `server.ts` entry point and `vercel.json` asset configuration. Import the GitHub repository in Vercel or deploy with the Vercel CLI. Set OAuth environment variables in Vercel if you use those providers.
-
-**Storage limitation:** the included JSON database is intended for local prototyping. Vercel’s filesystem is ephemeral, so accounts, meetings, and profile changes are not durable across deployments or instances. Connect a persistent database and shared session storage before relying on real user data. Recordings stay in each user’s browser and are not uploaded.
-
-## How it works
-
-Meetspace uses a small Node.js HTTP server for accounts, scheduling, and meeting data. WebSockets carry call signaling and chat; audio and video travel directly between browsers using WebRTC. The included STUN service helps browsers establish peer connections. Calls work best with small groups; restrictive networks may need a TURN relay.
-
-## Project files
-
-| File | Purpose |
-| --- | --- |
-| `index.html` | Meetspace interface and styles |
-| `client.js` | Dashboard, calendar, profile, auth, and call interactions |
-| `app-server.mjs` | HTTP API, authentication, meeting storage, and WebSocket signaling |
-| `server.ts` | Vercel Node server entry point |
-| `vercel.json` | Includes frontend assets in the server deployment |
-| `.env.example` | Optional OAuth configuration template |
+- **Instant & Invite Calls:** Start an instant meeting or join any session via a unique code.
+- **Smart Scheduling:** Plan meetings ahead and export calendar invites (`.ics`) for Google Calendar, Apple Calendar, and Outlook.
+- **P2P Audio & Video:** High-fidelity, low-latency WebRTC streams with screen sharing and integrated live chat.
+- **Host Moderation:** Secure waiting room to admit or deny entries, participant eviction, and remote mute requests.
+- **Private Browser Recording:** Capture sessions client-side directly in your browser library—exportable to WebM/MP4 with zero cloud bandwidth costs.
+- **Adaptive Dashboard:** Clean, responsive workspace with light/dark theme support, calendar views, contacts, and recordings.
+- **Flexible Authentication:** Native email/password sign-in with `scrypt` hashing, plus optional 1-click Google, Microsoft, and Apple OAuth.
 
 ---
 
-Built by **Vaibhav Tevatia** · [GitHub](https://github.com/vaibhavtevatia7946)
+## 🏗️ How It Works
+
+Meetspace separates the control plane (signaling & scheduling) from the data plane (media streaming):
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Alice as Host (Alice)
+    participant Server as Meetspace Server (Node.js / WS)
+    actor Bob as Guest (Bob)
+
+    Note over Alice,Bob: 1. Room Creation & Waiting Room
+    Alice->>Server: Create Meeting
+    Bob->>Server: Request Join with Invite Code
+    Server->>Alice: Waiting Room Prompt (Admit Bob?)
+    Alice->>Server: Admit Bob
+    Server->>Bob: Access Granted
+
+    Note over Alice,Bob: 2. WebRTC Signaling (WebSockets)
+    Alice->>Server: SDP Offer
+    Server->>Bob: Forward SDP Offer
+    Bob->>Server: SDP Answer
+    Server->>Alice: Forward SDP Answer
+    Alice<<-->>Bob: ICE Candidates Exchanged (via STUN)
+
+    Note over Alice,Bob: 3. Encrypted P2P Media Stream
+    Alice<<==>>Bob: Direct Audio / Video / Screen Share
+```
+
+> **Network Note:** Built-in STUN negotiation handles peer-to-peer traversal across standard networks. Restrictive corporate firewalls or symmetric NATs may require a custom TURN relay.
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Node.js 20+** installed.
+- **Zero package installations** (`npm install` is not required).
+
+### Run Locally
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/vaibhavtevatia7946/meetspace.git
+cd meetspace
+
+# 2. Start the native server
+node app-server.mjs
+```
+
+Open [**http://localhost:3000**](http://localhost:3000) to create your account and start your first call.
+
+> [!NOTE]  
+> Camera and microphone access are modern browser security features that require either `localhost` or an `https://` origin.
+
+---
+
+## 🔑 Optional Sign-in Providers
+
+Email/password authentication works right out of the box with zero setup. To activate OAuth sign-in:
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Add client credentials from your provider consoles.
+3. Start the server loading the environment file:
+   ```bash
+   node --env-file=.env app-server.mjs
+   ```
+
+### Callback URIs
+
+Register these exact redirect URLs in your provider dashboards:
+
+| Provider | Local Callback URL | Production Callback URL |
+| :--- | :--- | :--- |
+| **Google** | `http://localhost:3000/auth/google/callback` | `https://<YOUR-DOMAIN>/auth/google/callback` |
+| **Microsoft** | `http://localhost:3000/auth/microsoft/callback` | `https://<YOUR-DOMAIN>/auth/microsoft/callback` |
+| **Apple** | `http://localhost:3000/auth/apple/callback` | `https://<YOUR-DOMAIN>/auth/apple/callback` |
+
+> [!TIP]
+> - For production, set `BASE_URL` to your live domain (e.g. `https://meetspace-vaibhav.vercel.app`).
+> - Microsoft can use `MICROSOFT_TENANT_ID=common` or a custom tenant.
+> - Apple requires a *Sign in with Apple* Service ID and private key JWT secret (`APPLE_CLIENT_SECRET`).
+
+---
+
+## ☁️ Deploying to Vercel
+
+Meetspace is configured for zero-configuration deployment to Vercel via `server.ts` and `vercel.json`.
+
+1. Import the repository at [vercel.com/new](https://vercel.com/new).
+2. Under **Project Settings → Environment Variables**, add your `BASE_URL` and any OAuth keys.
+3. Click **Deploy**.
+
+> [!WARNING]  
+> **Serverless Storage Notice:**  
+> The included JSON file store (`data/meetspace.json`) is designed for local prototyping. Because Vercel's serverless runtime is ephemeral, local files reset across cold starts and deployments. For persistent multi-instance production, connect a database (e.g., Supabase, Neon, or Redis) and a shared session store. Recordings are saved strictly in the user's browser and do not touch the server.
+
+---
+
+## 📁 Project Structure
