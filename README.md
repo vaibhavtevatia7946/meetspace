@@ -1,4 +1,4 @@
-jj<div align="center">
+<div align="center">
 
 # 🪐 Meetspace
 
