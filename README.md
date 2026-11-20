@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🪐 Meetspacez
+# 🪐 Meetspace
 
 ### *Meetings made human.*
 
